@@ -1,21 +1,39 @@
 import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import React, { useState } from 'react';
+import AppLoading from 'expo-app-loading';
+import { Text, useColorScheme, View } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
+import * as Font from 'expo-font';
+import { NavigationContainer } from '@react-navigation/native';
+import Root from './navigation/Root';
+import { ThemeProvider } from 'styled-components/native';
+import { darkTheme, lightTheme } from './styled';
+
+const loadFonts = fonts => fonts.map(font => Font.loadAsync(font));
 
 export default function App() {
+  const [ready, setReady] = useState(false);
+  const startLoading = async () => {
+    await Font.loadAsync(Ionicons.font);
+  };
+  const onFinish = () => setReady(true);
+  const isDark = useColorScheme() === 'dark';
+  if (!ready) {
+    return (
+      <AppLoading
+        startAsync={startLoading}
+        onFinish={onFinish}
+        onError={console.error}
+      />
+    );
+  }
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <ThemeProvider theme={isDark ? darkTheme : lightTheme}>
+      <NavigationContainer>
+        {/*<Tabs />*/}
+        {/*<Stack />*/}
+        <Root />
+      </NavigationContainer>
+    </ThemeProvider>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
