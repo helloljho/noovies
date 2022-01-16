@@ -9,8 +9,7 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack';
 // `;
 
 const Container = styled.ScrollView`
-  text-align: center;
-  background-color: ${props => (props.theme ? props.theme.mainBgColor : 'red')};
+  background-color: ${props => props.theme.mainBgColor};
 `;
 
 const Movies: React.FC<NativeStackScreenProps<any, 'Movies'>> = () => {
