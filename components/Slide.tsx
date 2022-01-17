@@ -66,7 +66,9 @@ const Slide: React.FC<SlideProps> = ({
           <Poster path={posterPath} />
           <Column>
             <Title>{originalTitle}</Title>
-            {voteAverage > 0 ? <Votes>⭐️{voteAverage}/10</Votes> : null}
+            <Votes>
+              {voteAverage > 0 ? `⭐ ${voteAverage}/10` : `Comming soon`}
+            </Votes>
             <OverView>{overview.slice(0, 90)}...</OverView>
           </Column>
         </Wrapper>
