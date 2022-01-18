@@ -1,5 +1,11 @@
 import React, { useEffect } from 'react';
-import { Dimensions, StyleSheet, Text, View } from 'react-native';
+import {
+  Dimensions,
+  StyleSheet,
+  Platform,
+  TouchableOpacity,
+  Share,
+} from 'react-native';
 import styled from 'styled-components/native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { Movie, moviesApi, TV, tvApi } from '../api';
@@ -11,6 +17,7 @@ import { useQuery } from 'react-query';
 import movies from './Movies';
 import tv from './Tv';
 import Loader from '../components/Loader';
+import { Ionicons } from '@expo/vector-icons';
 
 const { height: SCREEN_HEIGHT } = Dimensions.get('window');
 
@@ -62,11 +69,49 @@ const Deatil: React.FC<DetailScreenProps> = ({
     isMovie ? moviesApi.detail : tvApi.detail
   );
 
+  const shareMedia = async () => {
+    const isAndroid = Platform.OS === 'android';
+    const hompage = isMovie
+      ? `https://www.imdb.com/title/${data.imdb_id}/`
+      : data.homepage;
+
+    if (isAndroid) {
+      await Share.share({
+        message: `${params.overview}\n Check it out: ${hompage}`,
+        title:
+          'original_title' in params
+            ? params.original_title
+            : params.original_name,
+      });
+    } else {
+      await Share.share({
+        url: hompage,
+        title:
+          'original_title' in params
+            ? params.original_title
+            : params.original_name,
+      });
+    }
+  };
+  const ShareButton = () => (
+    <TouchableOpacity onPress={shareMedia}>
+      <Ionicons name="share-outline" color="white" size={24} />
+    </TouchableOpacity>
+  );
   useEffect(() => {
     setOptions({
       title: 'original_title' in params ? 'Movie' : 'Tv',
+      headerRight: () => <ShareButton />,
     });
   }, []);
+
+  useEffect(() => {
+    if (data) {
+      setOptions({
+        headerRight: () => <ShareButton />,
+      });
+    }
+  }, [data]);
 
   console.log(data);
 
