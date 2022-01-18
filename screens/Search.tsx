@@ -18,7 +18,7 @@ const Search = () => {
   return (
     <Container>
       <SearchBar
-        placeholder="Serach for Movie or TV Show"
+        placeholder="Search for Movie or TV Show"
         placeholderTextColor="grey"
         returnKeyType="search"
         onChangeText={onChangeTest}
