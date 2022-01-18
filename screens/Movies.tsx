@@ -38,16 +38,6 @@ const Movies: React.FC<NativeStackScreenProps<any, 'Movies'>> = () => {
   const { isLoading: trendingLoading, data: trendingData } =
     useQuery<MovieResponse>(['movies', 'trending'], moviesApi.trending);
 
-  const renderHMedia = ({ item }) => (
-    <HMedia
-      posterPath={item.poster_path}
-      originalTitle={item.original_title}
-      overview={item.overview}
-      releaseDate={item.release_date}
-    />
-  );
-
-  const movieKeyExtractor = item => item.id + '';
   const onRefresh = async () => {
     setRefreshin(true);
     await queryClient.refetchQueries(['movies']);
@@ -97,9 +87,16 @@ const Movies: React.FC<NativeStackScreenProps<any, 'Movies'>> = () => {
         </>
       }
       data={upcomingData.results}
-      keyExtractor={movieKeyExtractor}
+      keyExtractor={item => item.id + ''}
       ItemSeparatorComponent={HSeparator}
-      renderItem={renderHMedia}
+      renderItem={({ item }) => (
+        <HMedia
+          posterPath={item.poster_path || null}
+          originalTitle={item.original_title}
+          overview={item.overview}
+          releaseDate={item.release_date}
+        />
+      )}
     />
   ) : null;
 };

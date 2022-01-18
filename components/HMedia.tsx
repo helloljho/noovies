@@ -4,7 +4,7 @@ import Poster from './Poster';
 import Votes from './Votes';
 
 const HMovie = styled.View`
-  padding: 0px 30px;
+  padding: 0 30px;
 
   flex-direction: row;
 `;
@@ -35,7 +35,7 @@ const Title = styled.Text`
 `;
 
 interface HMediaProps {
-  posterPath: string;
+  posterPath: string | null;
   originalTitle: string;
   overview: string;
   releaseDate?: string;
@@ -51,7 +51,7 @@ const HMedia: React.FC<HMediaProps> = ({
 }) => {
   return (
     <HMovie>
-      <Poster path={posterPath} />
+      <Poster path={posterPath || null} />
       <HColumn>
         <Title>
           {originalTitle.length > 30

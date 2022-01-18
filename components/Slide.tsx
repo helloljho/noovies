@@ -36,8 +36,8 @@ const Votes = styled(OverView)`
 `;
 
 interface SlideProps {
-  backdropPath: string;
-  posterPath: string;
+  backdropPath: string | null;
+  posterPath: string | null;
   originalTitle: string;
   voteAverage: number;
   overview: string;
