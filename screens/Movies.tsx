@@ -108,7 +108,7 @@ const Movies: React.FC<NativeStackScreenProps<any, 'Movies'>> = () => {
         </>
       }
       data={upcomingData.pages.map(page => page.results).flat()}
-      keyExtractor={item => item.id + ''}
+      keyExtractor={(item, index) => item.id + index}
       ItemSeparatorComponent={HSeparator}
       renderItem={({ item }) => (
         <HMedia
